@@ -1,11 +1,4 @@
 // Complete the sherlockAndAnagrams function below.
-// function hashValue(word) {
-//   let hash = 0;
-//   for (var i = 0; i < word.length; i++) {
-//     hash += word.charCodeAt(i);
-//   }
-//   return hash;
-// }
 
 function hashCode(str) {
   var hash = 0;
@@ -40,46 +33,34 @@ function sherlockAndAnagrams(s) {
   let dupes = onlyDupes(strArray);
   totalDupes = 0;
 
-  // Make hash of all possible combos from duplicates
+  // Make hash of all possible combos
   strArray.forEach(function(str, i) {
-    if (dupes.includes(str)) {
-      let j = i;
-      totalDupes++;
-      console.log(j);
-      let curWord = '';
-      while (j >= 0) {
-        curWord = curWord += strArray[j];
-        console.log(curWord);
-        hashWord = hashCode(curWord);
-        testGrams.push({ [hashWord]: curWord });
-        j--;
-      }
-      j = i;
-      curWord = '';
-      while (j < strArray.length) {
-        curWord = curWord += strArray[j];
-        console.log(curWord);
-        hashWord = hashCode(curWord);
-        testGrams.push({ [hashWord]: curWord });
-        j++;
-      }
-    } else alreadySeen[str] = true;
+    let j = i;
+    curWord = '';
+    while (j < strArray.length) {
+      curWord = curWord += strArray[j];
+      hashWord = hashCode(curWord);
+      console.log(curWord);
+      testGrams.push(hashWord);
+      j++;
+    }
   });
 
-  let newSeen = [];
-  testGrams.forEach(val => {
-    console.log(newSeen[val]);
-    if (newSeen[val]) {
-      console.log(val);
-      count++;
-    } else newSeen[val] = true;
+  let listDupes = new Set(onlyDupes(testGrams));
+  console.log('listDupes ');
+  console.log(listDupes);
+  listDupes.forEach(val => {
+    const anaGrams = testGrams.filter(testGram => testGram === val);
+    console.log('anaGrams');
+    console.log(anaGrams);
+    count += anaGrams.length;
   });
 
   console.log('testgrams ');
   console.log(testGrams);
   console.log('count ' + count);
 
-  return count - dupes.length;
+  return count;
 
   // if no duplicate characters then return nothing and exit.
 
